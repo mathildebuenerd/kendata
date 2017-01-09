@@ -90,6 +90,8 @@ if ('webkitSpeechRecognition' in window) {
       if ((monTableau = maRegex.exec(foundWords)) !== null) {
         console.log("il a dit " + maRegex + " !!!");
         led.on();
+        // donne un coup de sifflet
+        document.getElementsByTagName("audio")[0].play();
 
         // éteint la led au bout d'1 seconde
         setTimeout(function() {
@@ -108,7 +110,7 @@ if ('webkitSpeechRecognition' in window) {
 
 
 function startButton(event) {
-  
+
   // if (recognizing) {
     recognition.stop();
     // return;
