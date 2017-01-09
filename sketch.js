@@ -64,6 +64,13 @@ if ('webkitSpeechRecognition' in window) {
     recognizing = true;
   };
 
+  // permet de redémarrer la recognition quand elle s'arrête 
+  recognition.onend = function() {
+    // recognizing = true;
+    console.log("je me suis arrêté");
+    startButton(event);
+  };
+
 
 
   recognition.onresult = function(event) {
@@ -83,10 +90,12 @@ if ('webkitSpeechRecognition' in window) {
       if ((monTableau = maRegex.exec(foundWords)) !== null) {
         console.log("il a dit " + maRegex + " !!!");
         led.on();
+
         // éteint la led au bout d'1 seconde
         setTimeout(function() {
           led.off();
         }, 1000);
+
       }
     }
 
@@ -99,10 +108,11 @@ if ('webkitSpeechRecognition' in window) {
 
 
 function startButton(event) {
-  if (recognizing) {
+  
+  // if (recognizing) {
     recognition.stop();
-    return;
-  }
+    // return;
+  // }
 
   final_transcript = '';
   recognition.start();

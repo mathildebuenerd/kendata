@@ -9,12 +9,23 @@
   <script src="libraries/p5bots.js"></script>
   <script src="sketch.js"></script>
   </head>
-  <body>
+  <body onload="startButton(event)">
 
-  <p>left arrow = on <br/> right arrow = off</p>
+  <!-- <p>left arrow = on <br/> right arrow = off</p> -->
 
   <div class="right">
-  <button id="start_button" onclick="startButton(event)">
+  <!-- bouton pour activer ou désactiver la reconnaissance -->
+  <!-- <button id="start_button" onclick="startButton(event)"> -->
+
+  <script type="text/javascript">
+    
+    // setInterval(function() {
+    //   startButton(event);
+    //   console.log(recognizing);
+    //   console.log("je recommence");
+    // },6000);
+
+  </script>
 </div>
 
   </body>
