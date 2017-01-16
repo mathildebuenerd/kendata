@@ -3,27 +3,31 @@
 // P5bots script
 var b = p5.board('/dev/ttyACM0', 'arduino');
 var led;
+var motor;
 
 
 
 function setup() {
 
-	led = b.pin(9, 'LED');
+	led = b.pin(13, 'LED');
+  motor = b.pin(3, 'MOTOR');
 
 }
 
 function keyPressed() {
 
  if (keyCode === LEFT_ARROW){
-    led.on();
+    // led.on();
   } else if (keyCode === RIGHT_ARROW) {
-    led.off();
-   }//else if (keyCode === UP_ARROW){
-  //   led.blink();
-  //   console.log('Hello, World!')
-  // } else if (keyCode === DOWN_ARROW) {
-  //   led.noBlink();
-  // }
+    // led.off();
+   } else if (keyCode === DOWN_ARROW) {
+    console.log("j'y suis arrivé");
+      motor.write(100);
+      // motor.on();
+    console.log("j'ai fait tourner");
+   } else if (keyCode === UP_ARROW) {
+      motor.off();
+   }
 
 }
 
@@ -37,8 +41,10 @@ var grammar = '#JSGF V1.0; grammar wordsToFind; public <wordsToFind> = putain | 
 
 // confond souvent "putain" avec "je t'aime"
 // cherche les * car l'API remplace les insultes par des "***********"
- var wordsToFind = ["putain", /encul./, "va te faire", "foutre", "méchant", /\*/, "70", "90"];
+ var wordsToFind = ["putain", "merde", "bordel", " con ", " conne ", /encul./, "va te faire", "foutre", "connard", "connasse", "abruti", "débile", "chiant", "chier", "ta gueule", "salop", "fils de pu", "emmerde", "idiot", "nique", /\*/];
 
+ // pour les english words / il faut aussi changer le recognition.lang 
+ // var wordsToFind = ["shit", "fuck"];
 
 if ('webkitSpeechRecognition' in window) {
 
@@ -74,7 +80,7 @@ if ('webkitSpeechRecognition' in window) {
 
 
   recognition.onresult = function(event) {
-    // foundWords = "";
+ 
     var interim_transcript = '';
     var last = event.results.length - 1;
 
@@ -89,13 +95,20 @@ if ('webkitSpeechRecognition' in window) {
       // Tant que l'on trouve un des mots de la liste dans les foundWords
       if ((monTableau = maRegex.exec(foundWords)) !== null) {
         console.log("il a dit " + maRegex + " !!!");
-        led.on();
+
+        // allume la led
+        // led.on();
+
+        // allume le moteur 
+        motor.write(100);
+
         // donne un coup de sifflet
         document.getElementsByTagName("audio")[0].play();
 
-        // éteint la led au bout d'1 seconde
+        // arrête le moteur/éteint la led au bout d'1 seconde
         setTimeout(function() {
-          led.off();
+          // led.off();
+          motor.off(); //motor.write(0) ?
         }, 1000);
 
       }
@@ -111,10 +124,7 @@ if ('webkitSpeechRecognition' in window) {
 
 function startButton(event) {
 
-  // if (recognizing) {
-    recognition.stop();
-    // return;
-  // }
+  recognition.stop();
 
   final_transcript = '';
   recognition.start();
